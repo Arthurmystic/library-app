@@ -52,22 +52,6 @@ function addBookToLibrary(title, author, pages, read, edition,bookID){
     tbody.appendChild(tr); 
 }
 
-
-// function addBookToLibrary(title, author, pages, read, edition){
-//     book = new Book(title, author, pages, read, edition);
-//     myLibrary.push(book); // adds book to my library array
-// }
-
-
-// myBook = ['dong', 'mug', 150, false, 3];
-// for (let bookAttribute in myBook){
-// }
-
-
-// addBookToLibrary('tin', 'arthu', 200, true, 1)
-// addBookToLibrary('Adventures of Tom Sawyer', 'Mark Twain', 400, true, "special")
-
-
 function createCell(cellItem,tr){  
     let td = document.createElement('td');
     let span = document.createElement('span');
@@ -75,13 +59,3 @@ function createCell(cellItem,tr){
     td.appendChild(span);
     tr.appendChild(td); 
 }
-
-// myLibrary.forEach((book, index) => {
-//     let tr = document.createElement('tr');
-//     createCell(index+1,tr);
-
-//     for (let key in book){
-//         createCell(book[key],tr);
-//     }
-//     tbody.appendChild(tr);
-// });
