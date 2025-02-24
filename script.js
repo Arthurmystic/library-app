@@ -1,8 +1,35 @@
-const table = document.querySelector('#table')
-const tbody = document.querySelector('#tbody')
-const addBookButton = document.querySelector('#addBookButton');
-
 const myLibrary = [];
+const table = document.querySelector('#table');
+const tbody = document.querySelector('#tbody');
+const addBookButton = document.querySelector('#addBookButton');
+const modal = document.querySelector("[data-modal]");
+const cancelButton = document.querySelector("#cancelButton");
+const modalForm = document.querySelector("#modalForm");
+
+let numberOfBooks = 0;
+
+addBookButton.addEventListener('click',()=>{
+    modal.showModal();
+})
+
+cancelButton.addEventListener('click',()=>{
+    modal.close();
+})
+
+modalForm.addEventListener('submit',(event)=>{
+    event.preventDefault();
+    numberOfBooks +=1;
+
+    const bookTitle = document.querySelector("#title").value;
+    const bookAuthor = document.querySelector("#author").value;
+    const bookPages = document.querySelector("#pages").value;
+    const readCheckbox = document.querySelector("#read");
+    const bookRead = readCheckbox.checked? "Yes": "No";
+    const bookEdition = document.querySelector("#edition").value;
+
+    addBookToLibrary(bookTitle, bookAuthor, bookPages, bookRead, bookEdition, numberOfBooks);
+    modal.close();
+});
 
 function Book(title, author, pages, read, edition){
     this.Title = title;
@@ -10,54 +37,51 @@ function Book(title, author, pages, read, edition){
     this.Pages = pages;
     this.Read = read;
     this.Edition = edition; 
-}
+} 
 
-function addBookToLibrary(title, author, pages, read, edition){
+function addBookToLibrary(title, author, pages, read, edition,bookID){
     book = new Book(title, author, pages, read, edition);
-    myLibrary.push(book)
-}
+    myLibrary.push(book); // adds book to my library array
 
-addBookToLibrary('tin', 'arthu', 200, true, 1)
-addBookToLibrary('donopg', 'mug', 150, false, 3)
-addBookToLibrary('Adventures of Tom Sawyer', 'Mark Twain', 400, true, "special")
-
-myBook = ['dong', 'mug', 150, false, 3]
-
-// for (let bookAttribute in myBook){
-// }
-
-function createCell(cellItem,tr){  
-    let td = document.createElement('td')
-    let span = document.createElement('span')
-    span.textContent = cellItem
-    td.appendChild(span)
-    tr.appendChild(td) 
-}
-
-myLibrary.forEach((book, index) => {
-    let tr = document.createElement('tr')
-    createCell(index+1,tr);
-
+    // adding book to table;
+    let tr = document.createElement('tr');
+    createCell(bookID,tr);
     for (let key in book){
         createCell(book[key],tr);
     }
-
-    tbody.appendChild(tr)
-});
-
+    tbody.appendChild(tr); 
+}
 
 
-// for (let yourBook in myLibrary){
-
+// function addBookToLibrary(title, author, pages, read, edition){
+//     book = new Book(title, author, pages, read, edition);
+//     myLibrary.push(book); // adds book to my library array
 // }
 
 
-// myBook.forEach((bookAtt, index) => {
-//     createCell(bookAtt)
+// myBook = ['dong', 'mug', 150, false, 3];
+// for (let bookAttribute in myBook){
+// }
+
+
+// addBookToLibrary('tin', 'arthu', 200, true, 1)
+// addBookToLibrary('Adventures of Tom Sawyer', 'Mark Twain', 400, true, "special")
+
+
+function createCell(cellItem,tr){  
+    let td = document.createElement('td');
+    let span = document.createElement('span');
+    span.textContent = cellItem;
+    td.appendChild(span);
+    tr.appendChild(td); 
+}
+
+// myLibrary.forEach((book, index) => {
+//     let tr = document.createElement('tr');
+//     createCell(index+1,tr);
+
+//     for (let key in book){
+//         createCell(book[key],tr);
+//     }
+//     tbody.appendChild(tr);
 // });
-
-
-
-// table.appendChild(tbody)
-
-// console.table(myLibrary)
