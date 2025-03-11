@@ -1,3 +1,9 @@
+NEED to update code to:
+- Renumber the rows / genereate new numbering when a row/book is deleted.
+- Improve on the style.
+
+
+
 redundant code used for initial testing:
 
 
