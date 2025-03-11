@@ -39,7 +39,7 @@ function Book(title, author, pages, read, edition,bookID) {   // Book object con
     this.pages = pages;
     this.read = read;
     this.edition = edition;
-    this.bookID = bookID;
+    // this.bookID = bookID;
 }
 
 function addBookToLibrary(title, author, pages, read, edition, bookID) {
@@ -83,7 +83,7 @@ function createCell(cellContent, tr, cellClass) {
             delButton.addEventListener('click', ()=>{
                 const bkID = tr.dataset.id;
                 tbody.removeChild(tr);
-                myLibrary = myLibrary.filter(book.id !== bkID)
+                // myLibrary = myLibrary.filter(book.id !== bkID)
             })
             break
     }
