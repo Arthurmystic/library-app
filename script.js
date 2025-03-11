@@ -6,9 +6,8 @@ const modal = document.querySelector("[data-modal]");
 const cancelButton = document.querySelector("#cancelButton");
 const modalForm = document.querySelector("#modalForm");
 const submitButton = document.querySelector('#submitButton');
-const delBook = document.querySelector(".delBtn");
 
-let numberOfBooks = 0;
+let bookCount = 0;
 
 addBookButton.addEventListener('click', () => {
     modal.showModal();
@@ -19,75 +18,76 @@ cancelButton.addEventListener('click', () => {
 })
 
 modalForm.addEventListener('submit', (event) => {
-    event.preventDefault();
-    numberOfBooks += 1;
+    event.preventDefault(); // Prevent form from actually submitting
+    bookCount += 1;
 
     const bookTitle = document.querySelector("#title").value;
     const bookAuthor = document.querySelector("#author").value;
     const bookPages = document.querySelector("#pages").value;
     const readCheckbox = document.querySelector("#read");
-    const bookRead = readCheckbox.checked ? "Yes" : "No";
+    const bookReadStatus = readCheckbox.checked ? "Yes" : "No";
     const bookEdition = document.querySelector("#edition").value;
 
-    console.log(`nuBooks: ${numberOfBooks}`)
-    addBookToLibrary(bookTitle, bookAuthor, bookPages, bookRead, bookEdition, numberOfBooks);
+    addBookToLibrary(bookTitle, bookAuthor, bookPages, bookReadStatus, bookEdition, bookCount);
 
-    bookAttr = document.querySelector(".bookAttr");
-    bookAttr = document.querySelectorAll(".bookAttr");
-    bookAttr.forEach(cell => {
-        cell.setAttribute('contenteditable', 'true');
-    });
     modal.close();
 });
 
-function Book(title, author, pages, read, edition) {
-    this.Title = title;
-    this.Author = author;
-    this.Pages = pages;
-    this.Read = read;
-    this.Edition = edition;
+function Book(title, author, pages, read, edition,bookID) {   // Book object constructor
+    this.title = title;
+    this.author = author;
+    this.pages = pages;
+    this.read = read;
+    this.edition = edition;
+    this.bookID = bookID;
 }
 
 function addBookToLibrary(title, author, pages, read, edition, bookID) {
-    book = new Book(title, author, pages, read, edition);
-    myLibrary.push(book); // adds book to my library array
+    newBooktoLib = new Book(title, author, pages, read, edition,bookID);  // Create a new book object to add to library
+    newBook = new Book(title, author, pages, read, edition);  // Create a new book object to display
+    myLibrary.push(newBooktoLib); //  Add the book to the library array
 
     // adding book to table;
-    let tr = document.createElement('tr');
+    let tr = document.createElement('tr'); // Create a new table row
     tr.setAttribute("data-id", bookID)
-    createCell(bookID, tr, 'classBookNum'); // create book number
+    createCell(bookID, tr, 'classNonEditableCell'); // create book number
 
-    for (let key in book) {
-        createCell(book[key], tr, 'classBookAttr');
+    let lastKey = newBook[newBook.length -1];
+    for (let key in newBook) {
+        createCell(newBook[key], tr, 'classEditableCell');
     }
-    createCell('DEL', tr, 'delBtn');  //create delete button
+    createCell('DEL', tr, 'classDelBtn');  //create delete button
 
     tbody.appendChild(tr);
 }
 
-function createCell(cellItem, tr, tdClass) {
+function createCell(cellContent, tr, cellClass) {
     const td = document.createElement('td');
 
-    switch (tdClass) {
-        case 'classBookNum':
-        case 'classBookAttr':
-            td.className = tdClass;
-            td.innerText = cellItem;
-            if (tdClass === 'classBookAttr') {
+    switch (cellClass) {
+        case 'classNonEditableCell':
+        case 'classEditableCell':
+            td.className = cellClass; 
+            td.innerText = cellContent;
+            if (cellClass === 'classEditableCell') {
                 td.setAttribute('contenteditable', 'true');
             }
             break
 
-        case 'delBtn':
+        case 'classDelBtn':
             const delButton = document.createElement('button');
-            delButton.innerText = cellItem;
+            delButton.innerText = cellContent;
             td.appendChild(delButton);
             td.style.padding = "0px";
             td.style.border = "none";
             delButton.addEventListener('click', ()=>{
+                const bkID = tr.dataset.id;
                 tbody.removeChild(tr);
+                myLibrary = myLibrary.filter(book.id !== bkID)
             })
             break
     }
     tr.appendChild(td);
 }
+
+
